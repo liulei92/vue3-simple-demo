@@ -13,13 +13,19 @@
       <span>add:{{ data.sum }}</span><br/>
       <span>computed:{{ data.result }}</span>
     </div>
+    <div>
+      <button @click="goAbout">about</button>
+      <button @click="storeAdd">store.add</button>
+    </div>
   </div>
 </template>
 
 <script>
 import {
-  ref, reactive, computed, watchEffect, onMounted, onUnmounted,
+  ref, reactive, computed, watch, watchEffect, onMounted, onUnmounted,
 } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
+import { useStore } from 'vuex';
 
 export default {
   name: 'HelloWorld',
@@ -28,6 +34,10 @@ export default {
   },
   setup(props, ctx) {
     console.log(props, ctx);
+    const router = useRouter(); // 等于 this.$router
+    console.log(useRoute().path); // 路径 等于 this.$route
+
+    const store = useStore(); // 等于 this.$store
 
     const x = ref(0);
     const y = ref(0);
@@ -50,6 +60,18 @@ export default {
       y.value = e.pageY;
     };
 
+    const goAbout = () => {
+      router.push('/about');
+    };
+
+    const storeAdd = () => {
+      store.commit('add');
+    };
+
+    watch(() => data.sum, (value) => {
+      console.log(value);
+    });
+
     watchEffect(() => {
       console.log(`watchEffect: ${data.sum}`);
     });
@@ -67,6 +89,8 @@ export default {
       y,
       data,
       add,
+      goAbout,
+      storeAdd,
     };
   },
 };

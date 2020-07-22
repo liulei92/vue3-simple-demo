@@ -1,5 +1,7 @@
 <template>
   <div id="app">
+    {{ store.state.count }}
+    {{ str }}
     <div id="nav">
       <router-link to="/">Home</router-link> |
       <router-link to="/about">About</router-link>
@@ -7,6 +9,27 @@
     <router-view/>
   </div>
 </template>
+
+<script>
+import { computed, watchEffect } from 'vue';
+import { useStore } from 'vuex';
+
+export default {
+  name: 'App',
+  setup() {
+    const store = useStore();
+
+    watchEffect(() => {
+      console.log(store.state.count);
+    });
+
+    return {
+      str: computed(() => store.state.count + 1),
+      store: useStore(),
+    };
+  },
+};
+</script>
 
 <style lang="scss">
 #app {
