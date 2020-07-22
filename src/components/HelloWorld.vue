@@ -42,7 +42,7 @@ export default {
     const add = () => {
       data.sum = parseInt(data.num1, 10) + parseInt(data.num2, 10);
       // 同時emit
-      ctx.emit('sendMsg', data.sum);
+      ctx.emit('send-msg', data.sum);
     };
 
     const update = (e) => {
